@@ -18,10 +18,17 @@
 <html>
 
 <head>
-<title>Guacamole (EXAMPLE)</title>
+<title>Guacamole</title>
 </head>
 
 <body>
+
+	 <select id="protocol">
+	  <option value="vnc">VNC</option>
+	  <option value="ssh">SSH</option>
+	</select> 
+
+	<input id="vm" type="text">
 
 	<!-- Display -->
 	<div id="display"></div>
@@ -29,15 +36,20 @@
 	<!-- Guacamole JavaScript API -->
 	<script type="text/javascript" src="guacamole-common-js/all.js"></script>
 
+	<input type="button" value="clickme" onclick="connectTunnel();" />
+
 	<!-- Init -->
 	<script type="text/javascript">
+	
+	function connectTunnel() {
 		/* <![CDATA[ */
 		// Get display div from document
 		var display = document.getElementById("display");
 		// Instantiate client, using an HTTP tunnel for communications.
 		var guac = new Guacamole.Client(new Guacamole.HTTPTunnel("tunnel", false, {
-			"port":"22", "protocol":"ssh"
-		}));
+			"vm": document.getElementById("vm").value,
+			"protocol": document.getElementById("protocol").value}));
+		
 		// Add client to display div
 		display.appendChild(guac.getDisplay().getElement());
 
@@ -66,6 +78,7 @@
 			guac.sendKeyEvent(0, keysym);
 		};
 		/* ]]> */
+	};
 	</script>
 
 </body>
